@@ -72,26 +72,28 @@ const generateId = () => {
     return maxId + 1
 }
   
-/*app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response) => {
     const body = request.body
   
-    if (!body.content) {
+    if (!body.name) {
       return response.status(400).json({ 
         error: 'content missing' 
       })
     }
   
     const person = {
-      content: body.content,
-      //important: body.important || false,
-      //date: new Date(),
-      id: generateId(),
+    
+        id: generateId(),
+        content: body.content,
+        name: 'Samu Kaijansinkko',
+        number: Math.floor(Math.random() * Math.floor(9999999))
+      
     }
   
-    notes = notes.concat(note)
+    persons = persons.concat(person)
   
-    response.json(note)
-})*/
+    response.json(person)
+})
  
  
  
