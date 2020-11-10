@@ -3,6 +3,18 @@ const app = express()
 
 app.use(express.json()) 
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
 let persons = [
     
       { 
@@ -60,7 +72,7 @@ app.get('/api/persons/:id', (request, response) => {
  
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    perosns = persons.filter(person => person.id !== id)
+    persons = persons.filter(person => person.id !== id)
   
     response.status(204).end()
 })
@@ -74,19 +86,23 @@ const generateId = () => {
   
 app.post('/api/persons', (request, response) => {
     const body = request.body
-  
-    if (!body.name) {
+    console.log(persons)
+    console.log(body)
+    if (!body.name || !body.number) {
       return response.status(400).json({ 
-        error: 'content missing' 
+        error: 'Must contain name and number' 
       })
     }
-  
+    else if(persons.filter(e => e.name === body.name).length > 0){
+      return response.status(400).json({ 
+        error: 'Name must be unique' 
+      })
+    }
     const person = {
     
         id: generateId(),
-        content: body.content,
-        name: 'Samu Kaijansinkko',
-        number: Math.floor(Math.random() * Math.floor(9999999))
+        name: body.name,
+        number: Math.floor(Math.random() * Math.floor(9999999)) // body.number
       
     }
   
