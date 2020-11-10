@@ -3,15 +3,15 @@ const { token } = require('morgan')
 var morgan = require('morgan')
 const app = express()
 
-app.use(express.json()) 
-app.use(morgan('tiny', {token}))
+app.use(express.json())
+morgan.token('type', function (req, res) { return req.headers['content-type'] })
+app.use(morgan('tiny', 'type'))
 
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
   console.log('Body:  ', request.body)
-  console.log('Response: ', response.body)
   console.log('---')
   next()
 }
