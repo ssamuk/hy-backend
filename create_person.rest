@@ -4,5 +4,5 @@ Content-Type: application/json
 {
     //"id": 2,
     "name": "Unique name",
-    "number": "3"
+    "number": "2"
 }

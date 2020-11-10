@@ -1,12 +1,17 @@
 const express = require('express')
+const { token } = require('morgan')
+var morgan = require('morgan')
 const app = express()
 
 app.use(express.json()) 
+app.use(morgan('tiny', {token}))
+
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
   console.log('Body:  ', request.body)
+  console.log('Response: ', response.body)
   console.log('---')
   next()
 }
@@ -14,6 +19,8 @@ const requestLogger = (request, response, next) => {
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
+
+app.use(requestLogger)
 
 let persons = [
     
@@ -86,8 +93,8 @@ const generateId = () => {
   
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    console.log(persons)
-    console.log(body)
+    //console.log(persons)
+    //console.log(body)
     if (!body.name || !body.number) {
       return response.status(400).json({ 
         error: 'Must contain name and number' 
@@ -111,7 +118,7 @@ app.post('/api/persons', (request, response) => {
     response.json(person)
 })
  
- 
+ app.use(unknownEndpoint)
  
 const PORT = 3001
   app.listen(PORT, () => {
