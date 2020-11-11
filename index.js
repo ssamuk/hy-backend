@@ -37,7 +37,7 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(requestLogger)
-/*
+
 let persons = [
     
       { 
@@ -73,7 +73,7 @@ let persons = [
     
   
 ]
-*/
+
 
 
 app.get('/api/persons', (request, response) => {
