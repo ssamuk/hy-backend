@@ -3,7 +3,6 @@ const { token } = require('morgan')
 var morgan = require('morgan')
 const app = express()
 const cors = require('cors')
-const mongoose = require('mongoose')
 
 app.use(express.static('build'))
 app.use(cors())
@@ -19,18 +18,6 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
-const password = process.argv[2]
-
-const url = `mongodb+srv://fullstack:${password}@cluster0.ackfw.mongodb.net/persons-app?retryWrites=true&w=majority`
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-  id: String
-})
-
-const Person = mongoose.model('Person', personSchema)
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
@@ -76,10 +63,9 @@ let persons = [
 
 
 
+
 app.get('/api/persons', (request, response) => {
-  Person.find({}).then(persons => {
     response.json(persons)
-  })
 })
 
 app.get('/api/persons/info', (request, response) => {
