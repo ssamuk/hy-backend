@@ -38,8 +38,9 @@ if (process.argv.length > 4) {
 }else{
 
 Person.find({}).then(person => {
+    console.log('phonebook:')
     person.forEach(person => {
-      console.log('Person is: ',person)
+      console.log(person.name, person.number)
     })
     mongoose.connection.close()
   })
