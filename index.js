@@ -76,6 +76,7 @@ let persons = [
 
 
 app.get('/api/persons', (request, response) => {
+  console.log('im here')
   Person.find({}).then(person => {
     response.json(person)
   })
