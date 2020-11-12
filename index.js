@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 
-const url = 'mongodb+srv://fullstack:mypassword@cluster0-ostce.mongodb.net/persons-app?retryWrites=true'
+const url = 'mongodb+srv://fullstack:mypassword@cluster0.ackfw.mongodb.net/persons-app?retryWrites=true&w=majority'
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 const app = express()
