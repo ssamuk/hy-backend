@@ -1,6 +1,10 @@
+const mongoose = require('mongoose')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+
+const url = 'mongodb+srv://fullstack:mypassword@cluster0.ackfw.mongodb.net/Cluster0?retryWrites=true&w=majority'
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 const app = express()
 
@@ -10,6 +14,13 @@ app.use(express.json())
 morgan.token('type', function (req, res) { return req.headers['content-type'] })
 app.use(morgan('tiny', 'type'))
 
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+  id: Number
+})
+
+const Person= mongoose.model('Person', personSchema)
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -65,7 +76,9 @@ let persons = [
 
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+  Person.find({}).then(people => {
+    response.json(people)
+  })
 })
 
 app.get('/api/persons/info', (request, response) => {
