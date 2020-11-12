@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 
-const url = 'mongodb+srv://fullstack:mypassword@cluster0.ackfw.mongodb.net/Cluster0?retryWrites=true&w=majority'
+const url = 'mongodb+srv://fullstack:mypassword@cluster0-ostce.mongodb.net/persons-app?retryWrites=true'
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 const app = express()
@@ -75,10 +75,11 @@ let persons = [
 
 
 
-app.get('/api/persons', (request, response, next) => {
+app.get('/api/persons', (request, response) => {
   Person.find({})
     .then((people) => {
-      res.json(people)
+      console.log('console log here ',people.name)
+      response.json(people)
     })
 })
 
