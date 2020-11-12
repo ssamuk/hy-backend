@@ -20,7 +20,7 @@ const personSchema = new mongoose.Schema({
   id: Number
 })
 
-const Person= mongoose.model('Person', personSchema)
+const Person = mongoose.model('Person', personSchema)
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -35,7 +35,7 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(requestLogger)
-
+/*
 let persons = [
     
       { 
@@ -71,15 +71,15 @@ let persons = [
     
   
 ]
+*/
 
 
 
-
-app.get('/api/persons', (request, response) => {
-  console.log('im here')
-  Person.find({}).then(person => {
-    response.json(person)
-  })
+app.get('/api/persons', (request, response, next) => {
+  Person.find({})
+    .then((people) => {
+      res.json(people)
+    })
 })
 
 app.get('/api/persons/info', (request, response) => {
