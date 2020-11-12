@@ -1,8 +1,8 @@
 const express = require('express')
-const { token } = require('morgan')
-var morgan = require('morgan')
-const app = express()
+const morgan = require('morgan')
 const cors = require('cors')
+
+const app = express()
 
 app.use(express.static('build'))
 app.use(cors())
