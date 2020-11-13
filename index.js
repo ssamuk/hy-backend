@@ -1,16 +1,15 @@
 require('dotenv').config()
-const mongoose = require('mongoose')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const Person = require('./models/person')
-
 
 const app = express()
+const Person = require('./models/person')
 
-app.use(express.static('build'))
 app.use(cors())
+app.use(express.static('build'))
 app.use(express.json())
+
 morgan.token('type', function (req, res) { return req.headers['content-type'] })
 app.use(morgan('tiny', 'type'))
 
