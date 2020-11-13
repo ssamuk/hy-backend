@@ -1,10 +1,10 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 
-const url = 'mongodb+srv://fullstack:mypassword@cluster0.ackfw.mongodb.net/persons-app?retryWrites=true&w=majority'
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 const app = express()
 
@@ -14,13 +14,7 @@ app.use(express.json())
 morgan.token('type', function (req, res) { return req.headers['content-type'] })
 app.use(morgan('tiny', 'type'))
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-  id: Number
-})
 
-const Person = mongoose.model('Person', personSchema)
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -68,8 +62,6 @@ let persons = [
         "number": "12345"
         
       }
-    
-  
 ]
 */
 
@@ -78,7 +70,6 @@ let persons = [
 app.get('/api/persons', (request, response) => {
   Person.find({})
     .then((people) => {
-      console.log('console log here ',people.name)
       response.json(people)
     })
 })
@@ -129,22 +120,19 @@ app.post('/api/persons', (request, response) => {
         error: 'Name must be unique' 
       })
     }
-    const person = {
-    
-        id: generateId(),
-        name: body.name,
-        number: Math.floor(Math.random() * Math.floor(9999999)) // body.number
-      
-    }
-  
-    persons = persons.concat(person)
-  
-    response.json(person)
+    const person = new Person({
+       id: generateId(),
+       name: body.name,
+       number: body.number
+    })
+    person.save().then(savedPerson => {
+      response.json(savedPerson)
+    })
 })
  
  app.use(unknownEndpoint)
  
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
