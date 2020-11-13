@@ -69,7 +69,6 @@ let persons = [
 app.get('/api/persons', (request, response) => {
   Person.find({})
     .then((people) => {
-      console.log('we are here')
       response.json(people)
     })
 })
