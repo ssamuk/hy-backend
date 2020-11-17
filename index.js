@@ -128,5 +128,6 @@ app.post('/api/persons', (request, response) => {
  
 const PORT = process.env.PORT
   app.listen(PORT, () => {
+    console.log('Process.env: ', process.env)
     console.log(`Server running on port ${PORT}`)
   })
