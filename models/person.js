@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-const url = 'mongodb+srv://fullstack:mypassword@cluster0.ackfw.mongodb.net/persons-app?retryWrites=true&w=majority' 
-//process.env.MONGODB_URI
+const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(result => {
