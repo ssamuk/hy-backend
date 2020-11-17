@@ -66,7 +66,7 @@ let persons = [
 
 
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/people', (request, response) => {
   Person.find({})
     .then((people) => {
       response.json(people)
