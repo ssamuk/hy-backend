@@ -74,12 +74,15 @@ app.get('/api/persons', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.get('/api/persons/info', (request, response) => {
+app.get('/info', (request, response, next) => {
+     Person.find({})
+     .then((persons) => {
       response.write(`<p>Phonebook has info for ${persons.length} people</p>`)
       response.write(`<p>${new Date()}</p>`)
       response.end()
-    }
-)
+     })
+      .catch((error) => next(error))
+    })
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
