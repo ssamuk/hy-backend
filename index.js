@@ -113,21 +113,26 @@ app.delete('/api/persons/:id', (request, response, next) => {
   
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
-    console.log(request, 'response', response)
-    //console.log(persons)
-    console.log(body)
-    
+
+    /* Pretty sure we dont need this anymore after validators
+    but im still gonna let it be here for now
+
     if (!body.name || !body.number) {
       return response.status(400).json({ 
         error: 'Must contain name and number' 
       })
     }
+    */
     const person = new Person({
        name: body.name,
        number: body.number
     })
-    person.save().then(savedPerson => {
-      response.json(savedPerson)
+
+    person
+    .save()
+    .then(savedPerson => savedPerson.toJSON())
+    .then(savedAndFormattedPerson => {
+      response.json(savedAndFormattedPerson)
     })
     .catch(error => next(error))
 })
@@ -158,6 +163,8 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  }else if (error.name === 'ValidationError') {
+    return response.status(400).json({error: error.message})
   }
 
   next(error)
