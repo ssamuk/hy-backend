@@ -113,8 +113,10 @@ app.delete('/api/persons/:id', (request, response, next) => {
   
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
+    console.log(request, 'response', response)
     //console.log(persons)
-    //console.log(body)
+    console.log(body)
+    
     if (!body.name || !body.number) {
       return response.status(400).json({ 
         error: 'Must contain name and number' 
@@ -130,6 +132,21 @@ app.post('/api/persons', (request, response, next) => {
     .catch(error => next(error))
 })
  
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    number: body.number
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, {new : true})
+  .then(updatedPerson => {
+    response.json(updatedPerson)
+  })
+  .catch(error => next(error))
+}) 
+
 
 
 // Olemattomat osoitteet

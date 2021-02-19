@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf build && cd dev/hy-fullstack-2020/osa-2/puhelinluettelo && npm run build --prod && cp -r build cd ../../../hy-backend",
+    "build:ui": "rm -rf build && cd ../hy-fullstack-2020/osa-2/puhelinluettelo && npm run build --prod && cp -r build cd ../../../hy-backend",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"
