@@ -1,8 +1,8 @@
-const { request, response } = require('express')
-const mongoose = require('mongoose')
+const { request, response } = require("express")
+const mongoose = require("mongoose")
 
 if (process.argv.length<3) {
-  console.log('give password as argument')
+  console.log("give password as argument")
   process.exit(1)
 }
 
@@ -17,21 +17,21 @@ const personSchema = new mongoose.Schema({
   number: String
 })
 
-const Person = mongoose.model('Person', personSchema)
+const Person = mongoose.model("Person", personSchema)
 
 
 if (process.argv.length > 4) {
-    const person = new Person({
-      name: process.argv[3],
-      number: process.argv[4],
-    })
-    
-    
-    person.save().then(response => {
-        console.log('Saved person: ',person.name, 'with number', person.number,
-        'to phonebook.')
-        mongoose.connection.close()
-      })
+  const person = new Person({
+    name: process.argv[3],
+    number: process.argv[4],
+  })
+
+
+  person.save().then(response => {
+    console.log("Saved person: ",person.name, "with number", person.number,
+      "to phonebook.")
+    mongoose.connection.close()
+  })
 /*
 const person = new Person({
     name: `Samu`,
@@ -41,8 +41,8 @@ const person = new Person({
 */
 }else{
 
-Person.find({}).then(person => {
-    console.log('phonebook:')
+  Person.find({}).then(person => {
+    console.log("phonebook:")
     person.forEach(person => {
       console.log(person.name, person.number)
     })
