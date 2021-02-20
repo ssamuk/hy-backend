@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 require("dotenv").config()
 const express = require("express")
 const morgan = require("morgan")
@@ -12,7 +10,7 @@ app.use(cors())
 app.use(express.static("build"))
 app.use(express.json())
 
-morgan.token("type", function (req, res) { return req.headers["content-type"] })
+morgan.token("type", function (req) { return req.headers["content-type"] })
 app.use(morgan("tiny", "type"))
 
 
@@ -100,7 +98,7 @@ app.get("/api/persons/:id", (request, response, next) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -169,7 +167,7 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   }
 
-  next(error)
+  return next(error)
 }
 
 
